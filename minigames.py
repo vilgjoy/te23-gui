@@ -3,7 +3,7 @@ import random
 import time
 
 def start_game_1():
-    print("Minigame 1 startar...")
+    flappy_bird()
 
 def start_game_2():
     whack_a_mole()
@@ -11,12 +11,14 @@ def start_game_2():
 def start_game_3():
     simon_says()
 
+
+
 def show_main_menu():
     for widget in root.winfo_children():
         widget.destroy()
     
     tk.Label(root, text="Välj ett minigame:", font=("Arial", 14)).pack(pady=20)
-    tk.Button(root, text="Minigame 1", command=start_game_1, width=20, height=2).pack(pady=5)
+    tk.Button(root, text="flappy bird", command=start_game_1, width=20, height=2).pack(pady=5)
     tk.Button(root, text="Whack-a-mole!", command=start_game_2, width=20, height=2).pack(pady=5)
     tk.Button(root, text="simon says", command=start_game_3, width=20, height=2).pack(pady=5)
     tk.Button(root, text="avsluta", command=root.quit, width=20, height=2).pack(pady=20)
@@ -156,7 +158,28 @@ def player_click(color):
     else:
         game_over()
 
-root = tk.Tk()
+def flappy_bird():
+    for widget in root.winfo_children():
+        widget.destroy()
+
+    canvas = tk.Canvas(root, width=400, height=600, bg="skyblue")
+    canvas.pack()
+
+    player = canvas.create_rectangle(50, 250, 80, 280, fill="red")
+    velocity = 0
+    pipes = []
+    score = 0
+    is_game_over = False
+    score_text = canvas.create_text(10, 10, anchor='nw', text="Score: 0", font=("Arial", 16), fill="white")
+
+def create_pipe():
+        gap_y = random.randint(100, 400)
+        top_pipe = canvas.create_rectangle(400, 0, 460, gap_y, fill="green")
+        bottom_pipe = canvas.create_rectangle(400, gap_y + 150, 460, 600, fill="green")
+        pipes.append((top_pipe, bottom_pipe))
+
+
+root = tk.Tk()  
 root.title("Minigames Menu")
 root.geometry("400x400")
 
